@@ -23,9 +23,47 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+
+function minesweeper(matrix) {
+  let matrixHeight = matrix.length;
+  let matrixWidth = matrix[0].length;
+  const countNeighbors = (i, j) => {
+    let counter = 0;
+    if (i - 1 >= 0 && j - 1 >= 0 && matrix[i - 1][j - 1]) {
+      counter += 1;
+    }  
+    if (j - 1 >= 0 && matrix[i][j - 1]) {
+      counter += 1;
+    }
+    if (i - 1 >= 0 && matrix[i - 1][j]) {
+      counter += 1;
+    }
+    if (i - 1 >= 0 && j + 1 < matrixWidth && matrix[i - 1][j + 1]){
+      counter += 1;
+    }
+    if (j - 1 >= 0 && i + 1 < matrixHeight && matrix[i + 1][j - 1]){
+      counter += 1;
+    }
+    if (j + 1 < matrixWidth && i + 1 < matrixHeight && matrix[i + 1][j + 1]){
+      counter += 1;
+    }
+    if (j + 1 < matrixWidth && matrix[i][j + 1]){
+      counter += 1;
+    }
+    if (i + 1 < matrixHeight && matrix[i + 1][j]){
+      counter += 1;
+    }
+    console.log(counter)
+    return counter;
+  }
+  let newm = [];
+  for (let i = 0; i < matrixHeight; i += 1){
+    newm.push([]);
+    for (let j = 0; j < matrixWidth; j += 1){
+      newm[i].push(countNeighbors(i, j));
+    }
+  }
+  return newm;
 }
 
 module.exports = {
