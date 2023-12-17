@@ -20,13 +20,63 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(isDirect = true) {
+    this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    this.isDirect = isDirect;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(expr, key) {
+    if (!expr || !key) {
+      throw new Error('Incorrect arguments!');
+    }
+    let exprArray = expr.toUpperCase().split('');
+    let keyArr = key.toUpperCase().split('');
+    let index = 0;
+    let result = exprArray.map((char) => {
+      if (this.alphabet.includes(char)){
+        if (index > keyArr.length - 1) {index = 0}
+        console.log(index, char, keyArr[index]);
+        let keyChar = keyArr[index];
+        index += 1;
+        let encryptedChari = this.alphabet[(this.alphabet.indexOf(char) + this.alphabet.indexOf(keyChar)) % 26];
+        return encryptedChari;
+      }
+      return char; 
+    });
+    if (!this.isDirect) {
+      let reversedResult = '';
+      for (let i = result.length - 1; i >= 0; i -= 1){
+        reversedResult += result[i];
+      }
+      return reversedResult;
+    }
+    return result.join('');
+  }
+  decrypt(expr, key) {
+    if (!expr || !key) {
+      throw new Error('Incorrect arguments!');
+    }
+    let exprArray = expr.toUpperCase().split('');
+    let keyArr = key.toUpperCase().split('');
+    let index = 0;
+    let result = exprArray.map((char) => {
+      if (this.alphabet.includes(char)){
+        if (index > keyArr.length - 1) {index = 0}
+        console.log(index, char, keyArr[index]);
+        let keyChar = keyArr[index];
+        index += 1;
+        let encryptedChari = this.alphabet[(this.alphabet.indexOf(char) - this.alphabet.indexOf(keyChar) + 26) % 26];
+        return encryptedChari;
+      }
+      return char; 
+    });
+    if (!this.isDirect) {
+      let reversedResult = '';
+      for (let i = result.length - 1; i >= 0; i -= 1){
+        reversedResult += result[i];
+      }
+      return reversedResult;
+    }
+    return result.join('');
   }
 }
 
