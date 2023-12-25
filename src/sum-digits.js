@@ -13,13 +13,13 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function getSumOfDigits(n) {
-  if ((n + '').length > 1) {
-    let strN = (n + '').split('').map(el => Number(el));
-    let sum = strN.reduce((acc,val) => acc + val);
-    return getSumOfDigits(sum);
+  if ((n.toString()).length > 1) {
+    const strNumber = n.toString().split('').map(el => Number(el));
+    return getSumOfDigits(strNumber.reduce((acc,val) => acc + val));
   } 
   return n;
 }
+
 module.exports = {
   getSumOfDigits
 };
